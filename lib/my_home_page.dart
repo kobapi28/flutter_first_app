@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'create_page.dart';
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -24,16 +26,10 @@ class _MyHomePageState extends State<MyHomePage> {
     "英語の課題",
     "牛乳を買う"
   ];
-  int _counter = 0;
 
-  void _incrementCounter() {
+  void _addTodo(String title){
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      _todoItems.add(title);
     });
   }
 
@@ -71,8 +67,11 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: () async {
+          final String title = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreatePage()));
+          if(title != null && title != "") _addTodo(title);
+        },
+        tooltip: 'Add Todo',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
